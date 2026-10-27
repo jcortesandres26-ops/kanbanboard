@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kanban Board</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="logo">◧</span>
+      <h1>Kanban Board</h1>
+    </div>
+    <div class="header-actions">
+      <div class="counter" id="counter">0 tareas</div>
+      <button class="btn btn-ghost" id="clearDone">Limpiar hechas</button>
+    </div>
+  </header>
+
+  <!-- Añadir tarea -->
+  <section class="add-bar">
+    <input id="newTitle" class="input" type="text" placeholder="Nueva tarea…" maxlength="120" />
+    <select id="newPriority" class="select" aria-label="Prioridad">
+      <option value="low">Baja</option>
+      <option value="med" selected>Media</option>
+      <option value="high">Alta</option>
+    </select>
+    <select id="newColumn" class="select" aria-label="Columna">
+      <option value="todo" selected>Por hacer</option>
+      <option value="doing">En curso</option>
+      <option value="done">Hecho</option>
+    </select>
+    <button class="btn btn-primary" id="addBtn">+ Añadir</button>
+  </section>
+
+  <!-- Tablero -->
+  <main class="board" id="board">
+    <section class="column" data-col="todo">
+      <div class="col-head">
+        <span class="col-title">Por hacer</span>
+        <span class="col-count" data-count="todo">0</span>
+      </div>
+      <div class="col-body" data-dropzone="todo"></div>
+    </section>
+
+    <section class="column" data-col="doing">
+      <div class="col-head">
+        <span class="col-title">En curso</span>
+        <span class="col-count" data-count="doing">0</span>
+      </div>
+      <div class="col-body" data-dropzone="doing"></div>
+    </section>
+
+    <section class="column" data-col="done">
+      <div class="col-head">
+        <span class="col-title">Hecho</span>
+        <span class="col-count" data-count="done">0</span>
+      </div>
+      <div class="col-body" data-dropzone="done"></div>
+    </section>
+  </main>
+
+  <footer class="app-foot">
+    Arrastra las tarjetas entre columnas. Se guardan solas en tu navegador.
+  </footer>
+
+  <template id="cardTpl">
+    <article class="card" draggable="true">
+      <span class="prio"></span>
+      <p class="card-text"></p>
+      <div class="card-foot">
+        <span class="badge"></span>
+        <button class="del" title="Eliminar">✕</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
