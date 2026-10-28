@@ -1,80 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kanban Board</title>
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#080b10">
+  <title>Ciudad Libre — Juego urbano</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="app-header">
-    <div class="brand">
-      <span class="logo">◧</span>
-      <h1>Kanban Board</h1>
-    </div>
-    <div class="header-actions">
-      <div class="counter" id="counter">0 tareas</div>
-      <button class="btn btn-ghost" id="clearDone">Limpiar hechas</button>
-    </div>
+  <canvas id="game" aria-label="Juego de conducción por una ciudad"></canvas>
+
+  <header class="topbar">
+    <div class="brand"><span>CIUDAD</span><strong>LIBRE</strong></div>
+    <div class="clock" id="clock">18:42 · DESPEJADO</div>
+    <button class="sound" id="soundBtn" type="button" aria-label="Activar o quitar sonido">SONIDO: SÍ</button>
   </header>
 
-  <!-- Añadir tarea -->
-  <section class="add-bar">
-    <input id="newTitle" class="input" type="text" placeholder="Nueva tarea…" maxlength="120" />
-    <select id="newPriority" class="select" aria-label="Prioridad">
-      <option value="low">Baja</option>
-      <option value="med" selected>Media</option>
-      <option value="high">Alta</option>
-    </select>
-    <select id="newColumn" class="select" aria-label="Columna">
-      <option value="todo" selected>Por hacer</option>
-      <option value="doing">En curso</option>
-      <option value="done">Hecho</option>
-    </select>
-    <button class="btn btn-primary" id="addBtn">+ Añadir</button>
+  <section class="hud" aria-live="polite">
+    <div class="wanted" id="wanted" aria-label="Nivel de búsqueda">☆ ☆ ☆ ☆ ☆</div>
+    <div class="stat-row"><span>SALUD</span><div class="bar"><i id="healthBar"></i></div><b id="healthText">100</b></div>
+    <div class="speed"><b id="speed">0</b><span>KM/H</span></div>
+    <div class="money" id="money">€ 2.500</div>
+    <div class="mission"><small>OBJETIVO</small><strong id="missionText">Ve al punto marcado</strong><span id="missionDistance">0 m</span></div>
   </section>
 
-  <!-- Tablero -->
-  <main class="board" id="board">
-    <section class="column" data-col="todo">
-      <div class="col-head">
-        <span class="col-title">Por hacer</span>
-        <span class="col-count" data-count="todo">0</span>
-      </div>
-      <div class="col-body" data-dropzone="todo"></div>
-    </section>
+  <aside class="map-wrap" aria-label="Mapa de la ciudad">
+    <canvas id="minimap" width="190" height="190"></canvas>
+    <span>N</span>
+  </aside>
 
-    <section class="column" data-col="doing">
-      <div class="col-head">
-        <span class="col-title">En curso</span>
-        <span class="col-count" data-count="doing">0</span>
+  <section class="intro" id="intro">
+    <div class="intro-card">
+      <p class="eyebrow">MUNDO ABIERTO · NAVEGADOR</p>
+      <h1>CIUDAD<br><em>LIBRE</em></h1>
+      <p>Conduce, cumple encargos y escapa de la policía.</p>
+      <div class="controls-grid">
+        <div><kbd>WASD</kbd><span>Conducir</span></div>
+        <div><kbd>ESPACIO</kbd><span>Freno de mano</span></div>
+        <div><kbd>SHIFT</kbd><span>Nitro</span></div>
+        <div><kbd>ESC</kbd><span>Pausa</span></div>
       </div>
-      <div class="col-body" data-dropzone="doing"></div>
-    </section>
+      <button id="playBtn" type="button">ENTRAR EN LA CIUDAD</button>
+      <small>Juego original inspirado en los juegos urbanos.</small>
+    </div>
+  </section>
 
-    <section class="column" data-col="done">
-      <div class="col-head">
-        <span class="col-title">Hecho</span>
-        <span class="col-count" data-count="done">0</span>
-      </div>
-      <div class="col-body" data-dropzone="done"></div>
-    </section>
-  </main>
+  <section class="pause" id="pause" hidden>
+    <div><p>JUEGO EN PAUSA</p><button id="resumeBtn" type="button">SEGUIR</button></div>
+  </section>
 
-  <footer class="app-foot">
-    Arrastra las tarjetas entre columnas. Se guardan solas en tu navegador.
-  </footer>
-
-  <template id="cardTpl">
-    <article class="card" draggable="true">
-      <span class="prio"></span>
-      <p class="card-text"></p>
-      <div class="card-foot">
-        <span class="badge"></span>
-        <button class="del" title="Eliminar">✕</button>
-      </div>
-    </article>
-  </template>
+  <div class="touch" id="touchControls" aria-label="Controles táctiles">
+    <div class="touch-steer">
+      <button data-key="arrowleft" aria-label="Girar a la izquierda">◀</button>
+      <button data-key="arrowright" aria-label="Girar a la derecha">▶</button>
+    </div>
+    <div class="touch-drive">
+      <button data-key="arrowdown" aria-label="Frenar">▼</button>
+      <button data-key="arrowup" aria-label="Acelerar">▲</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
