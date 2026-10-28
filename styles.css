@@ -74,3 +74,13 @@ kbd { min-width:75px; padding:6px 8px; border:1px solid #ffffff40; border-radius
   .intro-card>p:not(.eyebrow) { margin:12px 0; }
   .controls-grid { margin:12px 0; }
 }
+
+.armor-row { margin-top:5px; }
+.bar.armor i { background:linear-gradient(90deg,#4b83ff,#73d7ff); }
+.weapon { display:flex; align-items:center; justify-content:space-between; width:210px; margin-top:8px; padding:6px 9px; border-left:3px solid #ffbf47; background:linear-gradient(90deg,rgba(20,14,4,.84),transparent); font:700 11px Barlow Condensed,sans-serif; letter-spacing:.09em; }
+.weapon span { color:#ffdc93; font-variant-numeric:tabular-nums; }
+.crosshair { position:fixed; z-index:4; left:50%; top:50%; width:24px; height:24px; transform:translate(-50%,-50%); pointer-events:none; }
+.crosshair i { position:absolute; display:block; background:#fff; box-shadow:0 0 4px #000; }
+.crosshair i:first-child { left:11px; top:2px; width:2px; height:20px; }
+.crosshair i:last-child { left:2px; top:11px; width:20px; height:2px; }
+.toast { position:fixed; z-index:8; left:50%; top:92px; transform:translateX(-50%); padding:10px 18px; border-left:3px solid var(--lime); background:rgba(5,8,12,.9); font:700 12px Barlow Condensed,sans-serif; letter-spacing:.1em; box-shadow:0 8px 30px #0009; }
