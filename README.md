@@ -1,14 +1,18 @@
 # Ciudad Libre 3D
 
-Juego urbano 3D hecho con HTML, CSS, JavaScript y Three.js.
+Juego urbano 3D original para navegador.
 
 ## Controles
 
-- `WASD` o flechas: conducir
-- `Espacio`: freno de mano
-- `Shift`: nitro
+- `WASD` o flechas: moverse y conducir
+- `F` o `Enter`: entrar o salir del coche
+- `Espacio`: saltar o usar el freno de mano
+- `Shift`: correr o usar nitro
+- `V`: cambiar cámara
+- `H`: claxon
 - `Esc`: pausa
+- Ratón: mover la cámara mientras caminas
 
-Incluye ciudad 3D, tráfico, policía, nivel de búsqueda, encargos, lluvia, ciclo horario, daños, sonido y mapa.
+Incluye conducción, movimiento a pie, tráfico, policía, búsqueda, misiones, lluvia, día y noche, daños, sonido y mapa.
 
-Publicado desde la rama `publicweb` con GitHub Pages.
+Usa Three.js. No usa código ni archivos de GTA.
