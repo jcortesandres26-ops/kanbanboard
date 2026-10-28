@@ -27,8 +27,16 @@
   scene.fog = new THREE.FogExp2(0x8db0c8, 0.00125);
 
   const camera = new THREE.PerspectiveCamera(62, innerWidth / innerHeight, 0.1, 2600);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.65));
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+  } catch (error) {
+    console.error(error);
+    ui.load.textContent = "Este navegador no puede abrir el juego 3D.";
+    ui.load.classList.add("error");
+    return;
+  }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 760 ? 1 : 1.35));
   renderer.setSize(innerWidth, innerHeight, false);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -149,14 +157,12 @@
       scene.add(horizontal);
     }
 
-    const laneMat = new THREE.MeshBasicMaterial({ color: 0xb7b6a6, transparent: true, opacity: .55 });
+    const laneMat = new THREE.MeshBasicMaterial({ color: 0xb7b6a6, transparent: true, opacity: .42 });
     for (let p = 0; p < CITY; p += BLOCK) {
-      for (let n = 0; n < CITY; n += 18) {
-        const v = new THREE.Mesh(new THREE.PlaneGeometry(.7, 9), laneMat);
-        v.rotation.x = -Math.PI / 2; v.position.set(p + ROAD / 2, .04, n + 4.5); scene.add(v);
-        const h = new THREE.Mesh(new THREE.PlaneGeometry(9, .7), laneMat);
-        h.rotation.x = -Math.PI / 2; h.position.set(n + 4.5, .041, p + ROAD / 2); scene.add(h);
-      }
+      const v = new THREE.Mesh(new THREE.PlaneGeometry(.55, CITY), laneMat);
+      v.rotation.x = -Math.PI / 2; v.position.set(p + ROAD / 2, .04, CITY / 2); scene.add(v);
+      const h = new THREE.Mesh(new THREE.PlaneGeometry(CITY, .55), laneMat);
+      h.rotation.x = -Math.PI / 2; h.position.set(CITY / 2, .041, p + ROAD / 2); scene.add(h);
     }
   }
 
@@ -179,13 +185,10 @@
         roof.position.set(building.position.x, h + 1.15, building.position.z);
         scene.add(roof);
 
-        const windowMat = new THREE.MeshStandardMaterial({ color: 0x7fa9b2, emissive: 0x466d79, emissiveIntensity: .35 });
-        const rows = Math.min(7, Math.floor(h / 12));
-        for (let r = 0; r < rows; r++) {
-          const windows = new THREE.Mesh(new THREE.BoxGeometry(w * .72, 2.4, .3), windowMat);
-          windows.position.set(building.position.x, 8 + r * 11, building.position.z - d / 2 - .18);
-          scene.add(windows);
-        }
+        const windowMat = new THREE.MeshStandardMaterial({ color: 0x7fa9b2, emissive: 0x466d79, emissiveIntensity: .28 });
+        const windows = new THREE.Mesh(new THREE.PlaneGeometry(w * .72, Math.min(h * .62, 54)), windowMat);
+        windows.position.set(building.position.x, Math.min(h * .5, 38), building.position.z - d / 2 - .18);
+        scene.add(windows);
       }
     }
   }
@@ -207,7 +210,7 @@
     return solids.some(b => x > b.minX && x < b.maxX && z > b.minZ && z < b.maxZ);
   }
 
-  function addTraffic(count = 24) {
+  function addTraffic(count = 16) {
     for (let i = 0; i < count; i++) {
       const vertical = i % 2 === 0;
       const line = Math.floor(random() * (CITY / BLOCK));
@@ -231,7 +234,7 @@
     const sun = new THREE.DirectionalLight(0xfff1d2, 3.2);
     sun.position.set(420, 650, 260);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(1536, 1536);
+    sun.shadow.mapSize.set(1024, 1024);
     sun.shadow.camera.left = -230; sun.shadow.camera.right = 230;
     sun.shadow.camera.top = 230; sun.shadow.camera.bottom = -230;
     sun.shadow.camera.far = 1200;
@@ -513,6 +516,8 @@
   player.mesh = makeCar(0xd7ff38); player.mesh.position.copy(player.position); scene.add(player.mesh);
   addTraffic(); addMission(); updateCamera(.1);
 
+  ui.play.disabled = false;
+  ui.load.textContent = "Motor 3D listo.";
   ui.play.addEventListener("click", start);
   ui.resume.addEventListener("click", () => dead ? reset() : togglePause());
   ui.sound.addEventListener("click", () => { muted = !muted; ui.sound.textContent = `SONIDO: ${muted ? "NO" : "SÍ"}`; if (!muted) initAudio(); });
@@ -527,7 +532,7 @@
   addEventListener("blur", () => keys.clear());
   addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight, false); renderer.setPixelRatio(Math.min(devicePixelRatio, 1.65));
+    renderer.setSize(innerWidth, innerHeight, false); renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 760 ? 1 : 1.35));
   });
 
   for (const button of document.querySelectorAll("[data-key]")) {
