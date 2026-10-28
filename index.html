@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
   <meta name="theme-color" content="#080b10">
   <title>Ciudad Libre 3D</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3.1">
 </head>
 <body>
   <canvas id="game" aria-label="Juego 3D de conducción por una ciudad"></canvas>
@@ -39,8 +39,8 @@
         <div><kbd>SHIFT</kbd><span>Nitro</span></div>
         <div><kbd>ESC</kbd><span>Pausa</span></div>
       </div>
-      <button id="playBtn" type="button">JUGAR AHORA</button>
-      <small id="loadState">Motor 3D listo.</small>
+      <button id="playBtn" type="button" disabled>JUGAR AHORA</button>
+      <small id="loadState">Cargando motor 3D...</small>
     </div>
   </section>
 
@@ -59,7 +59,40 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    (() => {
+      const state = document.querySelector("#loadState");
+      const play = document.querySelector("#playBtn");
+      const sources = [
+        "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js",
+        "https://unpkg.com/three@0.160.0/build/three.min.js"
+      ];
+      let source = 0;
+      function fail() {
+        source += 1;
+        if (source < sources.length) return loadEngine();
+        state.textContent = "No se pudo cargar el motor 3D. Recarga la página.";
+        state.classList.add("error");
+      }
+      function loadGame() {
+        const game = document.createElement("script");
+        game.src = "script.js?v=3.1";
+        game.onerror = () => {
+          state.textContent = "No se pudo cargar el juego. Recarga la página.";
+          state.classList.add("error");
+        };
+        document.body.appendChild(game);
+      }
+      function loadEngine() {
+        const engine = document.createElement("script");
+        engine.src = sources[source];
+        engine.onload = loadGame;
+        engine.onerror = fail;
+        document.body.appendChild(engine);
+      }
+      play.disabled = true;
+      loadEngine();
+    })();
+  </script>
 </body>
 </html>
