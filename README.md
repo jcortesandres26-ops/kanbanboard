@@ -2,17 +2,24 @@
 
 Juego urbano 3D original para navegador.
 
+## Mejoras
+
+- Edificios con ventanas y azoteas.
+- Calles, aceras, árboles y luces.
+- Personaje con brazos y piernas animados.
+- Movimiento suave con cámara libre.
+- Peatones, tráfico y policía.
+- Misiones, búsqueda, lluvia, día y noche.
+
 ## Controles
 
-- `WASD` o flechas: moverse y conducir
-- `F` o `Enter`: entrar o salir del coche
-- `Espacio`: saltar o usar el freno de mano
+- `WASD`: moverse y conducir
+- `F` o `Enter`: entrar o salir
+- `Espacio`: saltar o frenar
 - `Shift`: correr o usar nitro
 - `V`: cambiar cámara
 - `H`: claxon
 - `Esc`: pausa
-- Ratón: mover la cámara mientras caminas
-
-Incluye conducción, movimiento a pie, tráfico, policía, búsqueda, misiones, lluvia, día y noche, daños, sonido y mapa.
+- Ratón: mover la cámara caminando
 
 Usa Three.js. No usa código ni archivos de GTA.
