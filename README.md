@@ -1,6 +1,6 @@
-# Ciudad Libre
+# Ciudad Libre 3D
 
-Juego urbano de conducción hecho con HTML, CSS y JavaScript puros.
+Juego urbano 3D hecho con HTML, CSS, JavaScript y Three.js.
 
 ## Controles
 
@@ -9,6 +9,6 @@ Juego urbano de conducción hecho con HTML, CSS y JavaScript puros.
 - `Shift`: nitro
 - `Esc`: pausa
 
-Incluye tráfico, peatones, policía, nivel de búsqueda, encargos, clima, ciclo horario, daños, sonido y mapa.
+Incluye ciudad 3D, tráfico, policía, nivel de búsqueda, encargos, lluvia, ciclo horario, daños, sonido y mapa.
 
 Publicado desde la rama `publicweb` con GitHub Pages.
